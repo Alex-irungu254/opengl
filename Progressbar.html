@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Bar Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            overflow: hidden;
+            transition: background-color 1s, color 1s; /* Smooth transition */
+        }
+        progress {
+            width: 300px;
+            height: 30px;
+        }
+        #done {
+            font-size: 18px;
+            font-weight: bold;
+            color: green !important;
+            margin-top: 10px;
+        }
+        .transferring {
+            font-size: 20px;
+            font-weight: bold;
+            color: rgb(228, 8, 8);
+            margin-top: 5px;
+        }
+        .dark-theme {
+            background-color: #121212;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Loading Progress</h2>
+    <p>Please don't cancel or turn off, wait until it's done!!</p>
+    <label for="loading">Loading:</label>
+    <progress id="loading" value="0" max="200"></progress>
+    <p>Progress: <span id="progressValue">0</span> / 200</p>
+    <p id="done"></p>
+
+    <div id="transferringContainer"></div>
+
+    <script>
+        let progress = document.getElementById("loading");
+        let progressValue = document.getElementById("progressValue");
+        let message = document.getElementById("done");
+        let transferringContainer = document.getElementById("transferringContainer");
+        let value = 0;
+        let max = 200;
+        let darkThemeApplied = false;
+
+        let interval = setInterval(() => {
+            value += 5;
+            progress.value = value;
+            progressValue.textContent = value;
+
+            if (value >= max) {
+                clearInterval(interval);
+                message.textContent = "Hacked successfully!";
+
+                // Apply dark theme immediately after the progress bar completes
+                document.body.classList.add("dark-theme");
+                darkThemeApplied = true;
+
+                // Start infinite loop for "File Transferring!!"
+                let transferringInterval = setInterval(() => {
+                    let newMessage = document.createElement("p");
+                    newMessage.classList.add("transferring");
+                    newMessage.textContent = "File Transferring!!";
+                    transferringContainer.appendChild(newMessage);
+
+                    // Scroll the new lines up to avoid overflow
+                    transferringContainer.scrollTop = transferringContainer.scrollHeight;
+                }, 500); // Create a new line every 500ms
+
+                // After 10 seconds, clear the transferring interval
+                setTimeout(() => {
+                    clearInterval(transferringInterval);  // Stop the transferring message
+                }, 10000); // Stop the message loop after 10 seconds
+            }
+        }, 100);
+    </script>
+
+</body>
+</html>

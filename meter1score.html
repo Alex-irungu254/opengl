@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Meter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        meter {
+            width: 300px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter Your Score</h2>
+    <input type="number" id="scoreInput" min="0" max="100" value="50" oninput="updateMeter()">
+    <meter id="scoreMeter" value="50" min="0" max="100" low="40" high="80" optimum="90"></meter>
+    <p>Score: <span id="scoreValue">50</span></p>
+
+    <script>
+        function updateMeter() {
+            let score = document.getElementById("scoreInput").value;
+            let meter = document.getElementById("scoreMeter");
+            let scoreValue = document.getElementById("scoreValue");
+            
+            // Ensure the value is within the range 0-100
+            score = Math.max(0, Math.min(100, score));
+            meter.value = score;
+            scoreValue.textContent = score;
+        }
+    </script>
+</body>
+</html>
